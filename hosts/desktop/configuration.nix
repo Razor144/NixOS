@@ -6,13 +6,16 @@ in
 {
   imports = [
     ./local.nix
+    ../../modules/apps.nix
     ./hardware-configuration.nix
     ../../modules/desktop.nix
     ../../modules/gaming.nix
     ../../modules/storage.nix
   ];
 
-  networking.hostName = "lNixOS-desktop";
+  networking.hostName = "NixOS-desktop";
+
+  services.flatpak.enable = true;
 
   time.timeZone = "Europe/Berlin";
   i18n.defaultLocale = "de_DE.UTF-8";
