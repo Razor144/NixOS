@@ -10,6 +10,8 @@
     lutris
     heroic
     protonup
+    gamescope
+    gamemomde
   ];
 
   hardware.graphics = {
