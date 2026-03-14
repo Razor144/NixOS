@@ -1,1 +1,7 @@
+# local host config
 hosts/*/local.nix
+
+# secrets
+secrets.nix
+*.age
+*.key
