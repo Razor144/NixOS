@@ -1,20 +1,35 @@
-{
-  description = "NixOS configuration";
+{ description = “NixOS configuration”;
 
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-  };
+inputs = { nixpkgs.url = “github:NixOS/nixpkgs/nixos-unstable”;
 
-  outputs = { self, nixpkgs, ... }:
-  let
-    system = "x86_64-linux";
-  in
-  {
-    nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
-      inherit system;
-      modules = [
-        ./hosts/desktop/configuration.nix
-      ];
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
+
+};
+
+outputs = { self, nixpkgs, home-manager, … }: let system =
+“x86_64-linux”; in { nixosConfigurations.desktop =
+nixpkgs.lib.nixosSystem { inherit system;
+
+        modules = [
+          ./hosts/desktop/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.users.user = { ... }: {
+              imports =
+                [ ./home/home.nix ]
+                ++ (if builtins.pathExists ./home/local.nix
+                    then [ ./home/local.nix ]
+                    else [ ]);
+            };
+          }
+        ];
+      };
+    };
+
 }
