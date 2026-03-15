@@ -1,9 +1,17 @@
 { lib, config, pkgs, ... }:
 
 {
+  imports = [
+    ./programs/steam.nix
+    ./programs/gamemode.nix
+    ./programs/mangohud.nix
+  ];
+
   config = lib.mkIf config.my.profiles.gaming.enable {
     environment.systemPackages = with pkgs; [
-      mangohud
+      heroic
+      lutris
+      gamescope
     ];
   };
 }
