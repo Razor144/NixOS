@@ -1,4 +1,7 @@
-{ config, pkgs, ... }:
+{ ... }:
 
 {
+  imports = [
+    ./hardware/storage-games.nix
+  ];
 }
