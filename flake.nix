@@ -1,20 +1,22 @@
-{ description = "NixOS configuration";
+{
+  description = "NixOS configuration";
 
-inputs = { nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+  };
 
-};
-
-outputs = { self, nixpkgs, home-manager, ... }: let system =
-"x86_64-linux"; in { nixosConfigurations.desktop =
-nixpkgs.lib.nixosSystem { inherit system;
-
+  outputs = { self, nixpkgs, home-manager, ... }:
+    let
+      system = "x86_64-linux";
+    in {
+      nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
+        inherit system;
         modules = [
-          ./hosts/desktop/configuration.nix
+          ./hosts/desktop/default.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -22,14 +24,11 @@ nixpkgs.lib.nixosSystem { inherit system;
 
             home-manager.users.chris = { ... }: {
               imports =
-                [ ./home/home.nix ]
-                ++ (if builtins.pathExists ./home/local.nix
-                    then [ ./home/local.nix ]
-                    else [ ]);
+                [ ./home/common/default.nix ]
+                ++ (if builtins.pathExists ./home/local.nix then [ ./home/local.nix ] else [ ]);
             };
           }
         ];
       };
     };
-
 }

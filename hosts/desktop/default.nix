@@ -1,23 +1,19 @@
 { config, pkgs, ... }:
-
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../../modules/apps.nix
-      ../../modules/desktop.nix
-      ../../modules/gaming.nix
-      ../../modules/storage.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/apps.nix
+    ../../modules/desktop.nix
+    ../../modules/profiles/gaming.nix
+    ../../modules/storage.nix
+  ];
 
   programs.ssh.startAgent = true;
-
   networking.hostName = "nixos";
 
   time.timeZone = "Europe/Berlin";
 
   i18n.defaultLocale = "en_US.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "de_DE.UTF-8";
     LC_IDENTIFICATION = "de_DE.UTF-8";
@@ -40,7 +36,6 @@
   nixpkgs.config.allowUnfree = true;
 
   users.groups.chris = {};
-
   users.users.chris = {
     isNormalUser = true;
     group = "chris";
