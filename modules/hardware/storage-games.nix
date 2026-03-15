@@ -9,25 +9,28 @@ in
   options.my.storage.games = {
     enable = lib.mkEnableOption "mounting a dedicated games SSD at /games";
 
-    uuid = lib.mkOption {
+    label = lib.mkOption {
       type = lib.types.str;
-      example = "11111111-2222-3333-4444-555555555555";
-      description = "UUID of the ext4 partition mounted at /games.";
+      example = "games-linux";
+      description = "Filesystem label of the ext4 partition mounted at /games.";
     };
   };
 
   config = lib.mkIf cfg.enable {
     fileSystems.${mountPath} = {
-      device = "/dev/disk/by-uuid/${cfg.uuid}";
+      device = "/dev/disk/by-label/${cfg.label}";
       fsType = "ext4";
       options = [
         "defaults"
+        "nofail"
+        "x-systemd.device-timeout=1s"
         "x-gvfs-show"
         "x-gvfs-name=Games"
       ];
     };
 
     systemd.tmpfiles.rules = [
+      "z ${mountPath} 2775 chris chris -"
       "d ${steamLibraryPath} 2775 chris chris -"
     ];
   };
