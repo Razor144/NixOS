@@ -1,3 +1,6 @@
 { ... }:
 {
+  imports = [
+  ./sudo.nix
+];
 }
