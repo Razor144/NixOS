@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
-{
+lib.mkIf config.my.profiles.desktop.enable {
   environment.systemPackages = with pkgs; [
     firefox
     thunderbird

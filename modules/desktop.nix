@@ -1,6 +1,6 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
-{
+lib.mkIf config.my.profiles.desktop.enable {
   networking.networkmanager.enable = true;
 
   services.xserver = {
