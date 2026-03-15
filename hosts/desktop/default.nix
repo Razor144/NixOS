@@ -10,4 +10,6 @@
     ++ (if builtins.pathExists ./local.nix then [ ./local.nix ] else [ ]);
 
   networking.hostName = "nixos";
+
+  my.profiles.gaming.enable = true;
 }

@@ -1,20 +1,21 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
+
+let
+  cfg = config.my.profiles.gaming;
+in
 {
-  programs.steam.enable = true;
-  programs.steam.gamescopeSession.enable = true;
-  programs.gamemode.enable = true;
+  options.my.profiles.gaming.enable = lib.mkEnableOption "gaming profile";
 
-  environment.systemPackages = with pkgs; [
-    mangohud
-    lutris
-    heroic
-    protonup-ng
-    gamescope
-    gamemode
-  ];
+  config = lib.mkIf cfg.enable {
+    programs.steam.enable = true;
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
+    programs.gamemode.enable = true;
+
+    environment.systemPackages = with pkgs; [
+      lutris
+      heroic
+      mangohud
+      gamescope
+    ];
   };
 }
