@@ -1,37 +1,53 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
-let
-  mainUser = "user";
-in
 {
-  imports = [
-    ./local.nix
-    ../../modules/apps.nix
-    ./hardware-configuration.nix
-    ../../modules/desktop.nix
-    ../../modules/gaming.nix
-    ../../modules/storage.nix
-  ];
+  imports =
+    [
+      ./hardware-configuration.nix
+      ../../modules/apps.nix
+      ../../modules/desktop.nix
+      ../../modules/gaming.nix
+      ../../modules/storage.nix
+    ];
 
-  networking.hostName = "NixOS-desktop";
+  programs.ssh.startAgent = true;
 
-  services.flatpak.enable = true;
+  networking.hostName = "nixos";
 
   time.timeZone = "Europe/Berlin";
-  i18n.defaultLocale = "de_DE.UTF-8";
+
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "de_DE.UTF-8";
+    LC_IDENTIFICATION = "de_DE.UTF-8";
+    LC_MEASUREMENT = "de_DE.UTF-8";
+    LC_MONETARY = "de_DE.UTF-8";
+    LC_NAME = "de_DE.UTF-8";
+    LC_NUMERIC = "de_DE.UTF-8";
+    LC_PAPER = "de_DE.UTF-8";
+    LC_TELEPHONE = "de_DE.UTF-8";
+    LC_TIME = "de_DE.UTF-8";
+  };
 
   console.keyMap = "de";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  users.users.${mainUser} = {
-    isNormalUser = true;
-    description = "Main user";
-    extraGroups = [ "wheel" "networkmanager" ];
-  };
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
 
-  system.stateVersion = "24.11";
+  users.groups.chris = {};
+
+  users.users.chris = {
+    isNormalUser = true;
+    group = "chris";
+    description = "Chris";
+    extraGroups = [ "wheel" "networkmanager" ];
+    packages = with pkgs; [ ];
+  };
+
+  system.stateVersion = "25.11";
 }

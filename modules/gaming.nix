@@ -9,9 +9,9 @@
     mangohud
     lutris
     heroic
-    protonup
+    protonup-ng
     gamescope
-    gamemomde
+    gamemode
   ];
 
   hardware.graphics = {

@@ -3,7 +3,16 @@
 {
   networking.networkmanager.enable = true;
 
-  services.xserver.enable = true;
+  services.xserver = {
+    enable = true;
+    xkb.layout = "de";
+    xkb.variant = "";
+  };
+
+  console.keyMap = "de";
+
+  services.displayManager.sddm.autoNumlock = true;
+
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
@@ -22,8 +31,7 @@
 
   fonts.packages = with pkgs; [
     noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     liberation_ttf
   ];
 
