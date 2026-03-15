@@ -2,6 +2,8 @@
 
 let
   cfg = config.my.storage.games;
+  mountPath = "/games";
+  steamLibraryPath = "${mountPath}/steam";
 in
 {
   options.my.storage.games = {
@@ -15,9 +17,18 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    fileSystems."/games" = {
+    fileSystems.${mountPath} = {
       device = "/dev/disk/by-uuid/${cfg.uuid}";
       fsType = "ext4";
+      options = [
+        "defaults"
+        "x-gvfs-show"
+        "x-gvfs-name=Games"
+      ];
     };
+
+    systemd.tmpfiles.rules = [
+      "d ${steamLibraryPath} 2775 chris chris -"
+    ];
   };
 }
