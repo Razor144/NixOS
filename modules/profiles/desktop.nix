@@ -6,5 +6,6 @@
   imports = [
     ../desktop.nix
     ../apps.nix
+    ../programs/cli.nix
   ];
 }
