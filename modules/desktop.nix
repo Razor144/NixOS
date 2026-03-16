@@ -21,13 +21,34 @@ lib.mkIf config.my.profiles.desktop.enable {
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
+    audio.enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    wireplumber.enable = true;
+    wireplumber = {
+      enable = true;
+      extraConfig."90-astro-a50" = {
+        "monitor.alsa.rules" = [
+          {
+            matches = [
+              {
+                "device.name" = "alsa_card.usb-Astro_Gaming_Astro_A50-00";
+              }
+            ];
+            actions = {
+              update-props = {
+                "api.alsa.use-acp" = false;
+                "api.alsa.split-enable" = true;
+              };
+            };
+          }
+        ];
+      };
+    };
   };
 
   fonts.packages = with pkgs; [
