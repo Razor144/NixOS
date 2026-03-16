@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 
 let
   cfg = config.my.storage.games;
@@ -29,9 +29,17 @@ in
       ];
     };
 
-    systemd.tmpfiles.rules = [
-      "z ${mountPath} 2775 chris chris -"
-      "d ${steamLibraryPath} 2775 chris chris -"
-    ];
+    systemd.services.games-library-permissions = {
+      description = "Ensure correct ownership and permissions for the games library";
+      after = [ "local-fs.target" ];
+      wantedBy = [ "multi-user.target" ];
+      unitConfig.ConditionPathIsMountPoint = mountPath;
+      path = [ pkgs.coreutils ];
+      serviceConfig.Type = "oneshot";
+      script = ''
+        install -d -o chris -g chris -m 2775 ${mountPath}
+        install -d -o chris -g chris -m 2775 ${steamLibraryPath}
+      '';
+    };
   };
 }

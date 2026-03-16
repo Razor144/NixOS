@@ -7,5 +7,6 @@
     ../desktop.nix
     ../apps.nix
     ../programs/cli.nix
+    ../programs/firefox.nix
   ];
 }

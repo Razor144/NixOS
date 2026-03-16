@@ -27,6 +27,7 @@ lib.mkIf config.my.profiles.desktop.enable {
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.enable = true;
   };
 
   fonts.packages = with pkgs; [
@@ -44,5 +45,10 @@ lib.mkIf config.my.profiles.desktop.enable {
     wget
     curl
     fastfetch
+    alsa-utils
+    pavucontrol
+    pipewire
+    usbutils
+    wireplumber
   ];
 }
