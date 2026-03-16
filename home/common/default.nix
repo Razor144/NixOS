@@ -3,6 +3,7 @@
 {
   imports = [
     ./shell.nix
+    ./thunderbird.nix
   ];
 
   home.stateVersion = "24.11";
