@@ -1,5 +1,20 @@
 { lib, config, pkgs, ... }:
 
+let
+  blackSddmTheme = pkgs.runCommandLocal "sddm-theme-breeze-black" { } ''
+    themeDir="$out/share/sddm/themes/breeze-black"
+    mkdir -p "$themeDir"
+    cp -r ${pkgs.kdePackages.plasma-desktop}/share/sddm/themes/breeze/. "$themeDir/"
+
+    printf '%s\n' \
+      '[General]' \
+      'type=color' \
+      'color=#000000' \
+      'background=' \
+      'showlogo=hidden' \
+      > "$themeDir/theme.conf.user"
+  '';
+in
 lib.mkIf config.my.profiles.desktop.enable {
   networking.networkmanager.enable = true;
 
@@ -11,9 +26,21 @@ lib.mkIf config.my.profiles.desktop.enable {
 
   console.keyMap = "de";
 
-  services.displayManager.sddm.autoNumlock = true;
+  boot = {
+    consoleLogLevel = 3;
+    initrd.verbose = false;
+    kernelParams = [ "quiet" "splash" ];
+    plymouth = {
+      enable = true;
+      theme = "spinner";
+    };
+  };
 
-  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm = {
+    enable = true;
+    autoNumlock = true;
+    theme = "breeze-black";
+  };
   services.desktopManager.plasma6.enable = true;
 
   services.printing.enable = true;
@@ -71,5 +98,6 @@ lib.mkIf config.my.profiles.desktop.enable {
     pipewire
     usbutils
     wireplumber
+    blackSddmTheme
   ];
 }

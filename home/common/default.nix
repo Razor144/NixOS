@@ -3,6 +3,7 @@
 {
   imports = [
     ./shell.nix
+    ./wallpaper.nix
     ./thunderbird.nix
   ];
 
