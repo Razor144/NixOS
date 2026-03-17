@@ -5,6 +5,7 @@
     ../core/locale.nix
     ../core/users.nix
     ../core/nix-settings.nix
+    ../hardware/default.nix
     ../storage.nix
   ];
 }
