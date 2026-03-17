@@ -13,6 +13,7 @@
 
   my.profiles.desktop.enable = true;
   my.profiles.gaming.enable = true;
+  my.debug.enable = true;
   my.hardware.rgb.enable = true;
   my.storage.games.enable = true;
   my.storage.games.label = "games-linux";
