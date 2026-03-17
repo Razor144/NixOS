@@ -106,4 +106,15 @@ in
 
     ${pkgs.coreutils}/bin/cp "$tmpFile" "$configFile"
   '';
+
+  home.activation.setLockScreenBackground = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    configFile="$HOME/.config/kscreenlockerrc"
+    kwriteconfig="${pkgs.kdePackages.kconfig}/bin/kwriteconfig6"
+
+    "$kwriteconfig" --file "$configFile" --group Greeter --key WallpaperPlugin "org.kde.color"
+    "$kwriteconfig" --file "$configFile" --group Greeter --key wallpaperPlugin "org.kde.color"
+    "$kwriteconfig" --file "$configFile" --group Greeter --group Wallpaper --key WallpaperPlugin "org.kde.color"
+    "$kwriteconfig" --file "$configFile" --group Greeter --group Wallpaper --key wallpaperplugin "org.kde.color"
+    "$kwriteconfig" --file "$configFile" --group Greeter --group Wallpaper --group org.kde.color --group General --key Color "#000000"
+  '';
 }
