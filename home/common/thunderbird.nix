@@ -8,7 +8,7 @@
       "mail.shell.checkDefaultClient" = false;
     };
 
-    profiles.chris = {
+    profiles."d9j83j5a.default" = {
       isDefault = true;
       settings = {
         "mailnews.start_page.enabled" = false;
