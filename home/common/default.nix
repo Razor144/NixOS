@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./display-resume.nix
     ./shell.nix
     ./wallpaper.nix
     ./thunderbird.nix
