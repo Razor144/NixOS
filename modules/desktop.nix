@@ -68,8 +68,28 @@ lib.mkIf config.my.profiles.desktop.enable {
             ];
             actions = {
               update-props = {
+                # The Astro A50 microphone is not exposed reliably with the default ACP handling.
+                # Keep the raw ALSA path enabled so the mic stays available, even though this
+                # currently also exposes the secondary "USB Audio #1" node.
                 "api.alsa.use-acp" = false;
                 "api.alsa.split-enable" = true;
+              };
+            };
+          }
+          {
+            matches = [
+              {
+                "node.name" = "alsa_output.usb-Astro_Gaming_Astro_A50-00.playback.1.0";
+              }
+              {
+                "node.name" = "alsa_input.usb-Astro_Gaming_Astro_A50-00.capture.1.0";
+              }
+            ];
+            actions = {
+              update-props = {
+                # Hide the duplicate raw PCM #1 nodes; the actual working Astro mic/input
+                # path is capture.0.0 and should remain available.
+                "node.disabled" = true;
               };
             };
           }

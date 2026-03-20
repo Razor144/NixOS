@@ -5,6 +5,7 @@ Flake-basiertes NixOS-Repository fuer ein Desktop-System mit KDE Plasma, Gaming-
 ## Aktueller Stand
 
 - Desktop-Profil mit KDE Plasma 6, SDDM und PipeWire
+- Desktop-Profil enthaelt die alltaeglichen GUI-Basisprogramme systemweit, inklusive Firefox, Discord und Telegram Desktop
 - Gaming-Profil mit Steam, Gamescope, MangoHud, GameMode, Heroic und Lutris
 - `programs.steam.protontricks.enable = true` fuer kleine Proton-/Steam-Fixes
 - Dedizierte Games-SSD unter `/games`
